@@ -52,8 +52,11 @@ class CurrencyPriceApp:
 
         self.live_fig, self.live_ax = plt.subplots(figsize=(6, 2))
         self.live_canvas = FigureCanvasTkAgg(self.live_fig, master=self.root)
-        self.live_canvas.get_tk_widget().pack(pady=10)
+        self.live_canvas_widget = self.live_canvas.get_tk_widget()
+        self.live_canvas_widget.pack_forget()
         self.live_canvas.draw()
+
+        self.root.bind('<o>', self.toggle_probability_chart)
 
         self.countdown = 12
         self.update_price()
@@ -160,6 +163,13 @@ class CurrencyPriceApp:
             self.live_ax.text(bar.get_x() + bar.get_width()/2.0, height + 0.5, f"{prob:.2f}%", ha='center', va='bottom')
 
         self.live_canvas.draw()
+
+    def toggle_probability_chart(self, event):
+        widget = self.live_canvas_widget
+        if widget.winfo_ismapped():
+            widget.pack_forget()
+        else:
+            widget.pack(pady=10)
 
 if __name__ == "__main__":
     root = tk.Tk()
