@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 class CurrencyPriceApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Spilyacoin Tracker")
+        self.root.title("PAWScoin Tracker")
         self.root.geometry("600x900")
 
         self.price_history = []
@@ -18,7 +18,7 @@ class CurrencyPriceApp:
 
         self.prng = random.Random()
 
-        self.price_label = tk.Label(root, text="Цена 1 спилякоина: ? очков", font=("Arial", 20))
+        self.price_label = tk.Label(root, text="Цена 1 PAWSкоина: ? очков", font=("Arial", 20))
         self.price_label.pack(pady=10)
 
         self.timer_label = tk.Label(root, text="До обновления: 30 сек", font=("Arial", 14))
@@ -32,7 +32,7 @@ class CurrencyPriceApp:
 
         self.figure, self.ax = plt.subplots(figsize=(6, 3))
         self.figure.subplots_adjust(bottom=0.25)
-        self.ax.set_title("История цен Spilyacoin")
+        self.ax.set_title("История цен PAWScoin")
         self.ax.set_ylabel("Цена")
         self.ax.set_xlabel("Обновления", labelpad=15)
 
@@ -61,19 +61,22 @@ class CurrencyPriceApp:
 
     def generate_weighted_price(self):
         r = self.prng.random()
-        skewed_value = int((1 - r ** 0.5) * 100)  # сильное смещение к низким значениям
+        skewed_value = int((1 - r ** 0.5) * 100)
         return min(max(skewed_value, 0), 99)
+
+    def calculate_next_probabilities(self):
+        return {}
 
     def update_price(self):
         self.current_price = self.generate_weighted_price()
         now = datetime.now()
-        self.price_label.config(text=f"Цена 1 спилякоина: {self.current_price} очков")
+        self.price_label.config(text=f"Цена 1 PAWSкоина: {self.current_price} очков")
 
         self.price_history.append(self.current_price)
         self.time_history.append(now)
 
         self.ax.clear()
-        self.ax.set_title("История цен Spilyacoin")
+        self.ax.set_title("История цен PAWScoin")
         self.ax.set_ylabel("Цена")
         self.ax.set_ylim(0, 100)
         self.ax.set_xlim(0, max(10, len(self.price_history)))
